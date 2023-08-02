@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+  </head>
+
+<body>
+  <div class="container" style="margin: auto;">
+   
+ <table class="table" id="users">  
+</table>  
+  </div>
+<script>
+
+  var users = document.getElementById("users");
+  var content = "";
+  var records = [
+    {name:"Abhijeet",email:"30",mode:"view"},
+    {name:"Pratap",email:"30",mode:"view"},
+    {name:"Singh",email:"30",mode:"view"},
+  ];
+  function renderTable(){
+    content = "";
+    content += ` <tr><th>Id</th><th>Name</th><th>Email</th><th>Action</th></tr>   `;
+     for (let index = 0; index < records.length; index++) {
+    const record = records[index];
+   content += ` 
+        <tr id="row_${index}">
+          <td class="">${index+1}</td>
+          <td class="name-cell">${record.name}</td>
+          <td class="email-cell">${record.email}</td>
+          <td>
+            <button type="button" id="edit" onclick="editRecord(${index})" class="btn btn-outline-danger"><i class="fa fa-edit"></i></button>
+            <button type="button" onclick="deleteRecord(${index})" class="btn btn-outline-danger"><i class="fa fa-trash-o"></i></button>
+          </td>
+        </tr> `;
+    
+  }
+  users.innerHTML = content;
+  }
+ 
+  
+  renderTable();
+  function editRecord(idx){
+    const row = document.getElementById(`row_${idx}`);
+    const nameCell = row.querySelector('td:nth-child(2)');
+    const emailCell = row.querySelector('td:nth-child(3)');
+    const actionCell = row.querySelector('td:nth-child(4)');
+    const name = nameCell.innerText;
+    const email = emailCell.innerText;
+    nameCell.innerHTML = `<input type="text" value="${name}" id="edit-name_${idx}" class="form-control">`;
+    emailCell.innerHTML = `<input type="email" value="${email}" id="edit-email_${idx}" class="form-control">`;
+     actionCell.innerHTML = `<button type="button" onclick="saveRecord(${idx})" class="btn btn-outline-danger"><i class="fa fa-save"></i></button>`;
+           
+  }
+  function saveRecord(idx){
+    const nameInput = document.getElementById(`edit-name_${idx}`);
+    name = nameInput.value;
+    const emailInput = document.getElementById(`edit-email_${idx}`);
+    email = emailInput.value;
+    records[idx].name = name;
+    records[idx].email = email;
+    renderTable();
+           
+  }
+  function deleteRecord(idx){
+    records.splice(idx,1);
+    console.log(records);
+    renderTable();
+           
+  }
+</script>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+</body>
+</html>
